@@ -22,7 +22,7 @@ module.exports = {
         .catch((error) => console.log(error))
         console.log(data)
 
-        
+
         if (data.error === 'PROFILE_PRIVATE') {
             await interaction.reply("This profile has been privated.")
         } else {
@@ -32,16 +32,15 @@ module.exports = {
         .setURL('https://discord.js.org/')
         .setThumbnail(`https://secure.runescape.com/m=avatar-rs/${data.name.replace(" ", "%2")}/chat.png`)
         .addFields(
-            { name: 'Combat Level', value: `${data.combatlevel}`, inline: true },
-            { name: 'Total Skill', value: `${data.totalskill}`, inline: true },
-            { name: 'Rank', value: `${data.rank}`, inline: true },
+            { name: 'COMBAT LEVEL', value: `${data.combatlevel}`, inline: true },
+            { name: 'TOTAL SKILL', value: `${data.totalskill}`, inline: true },
+            { name: 'RANK', value: `${data.rank}`, inline: true },
         )
         .addFields(
-            { name: 'Total Exp', value: `${new Intl.NumberFormat().format(data.totalxp)}`, inline: true },
-            { name: 'Quests Complete', value: `${data.questscomplete}`, inline: true},
-            { name: 'Logged In', value: `${data.loggedIn}`, inline: true}
+            { name: 'TOTAL EXPERIENCE', value: `${new Intl.NumberFormat().format(data.totalxp)}`, inline: true },
+            { name: 'QUESTS COMPLETE', value: `${data.questscomplete}`, inline: true},
+            { name: 'LOGGED IN', value: `${data.loggedIn}`, inline: true}
         )
-        .setImage('https://i.imgur.com/AfFp7pu.png')
         .setTimestamp()
         .setFooter({ text: 'Developed by Sinan', iconURL: 'https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large' });
 
