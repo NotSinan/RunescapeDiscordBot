@@ -21,12 +21,6 @@ module.exports = {
         .then((response) => response.json())
         .catch((error) => console.log(error))
 
-        const clanNameData = await fetch(`https://secure.runescape.com/m=website-data/playerDetails.ws?names=%5B%22${username}%22%5D&callback=jQuery000000000000000_0000000000&_=0`)
-        .then((response) => response.text)
-
-        console.log(clanNameData)
-
-
         if (data.error === 'PROFILE_PRIVATE') {
             await interaction.reply("This profile is private.")
         } else {
