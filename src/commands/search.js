@@ -17,19 +17,22 @@ module.exports = {
     async execute(interaction) {
         const username = interaction.options.getString('username');
 
-        const data = await fetch(`https://apps.runescape.com/runemetrics/profile/profile?user=${username}&activities=0`)
+        const data = await fetch(`https://apps.runescape.com/runemetrics/profile/profile?user=${username}&activities=1`)
         .then((response) => response.json())
         .catch((error) => console.log(error))
-        console.log(data)
+
+        const clanNameData = await fetch(`https://secure.runescape.com/m=website-data/playerDetails.ws?names=%5B%22${username}%22%5D&callback=jQuery000000000000000_0000000000&_=0`)
+        .then((response) => response.text)
+
+        console.log(clanNameData)
 
 
         if (data.error === 'PROFILE_PRIVATE') {
-            await interaction.reply("This profile has been privated.")
+            await interaction.reply("This profile is private.")
         } else {
         const exampleEmbed = new EmbedBuilder()
         .setColor(0x0011FF)
         .setTitle(`${data.name}`)
-        .setURL('https://discord.js.org/')
         .setThumbnail(`https://secure.runescape.com/m=avatar-rs/${data.name.replace(" ", "%2")}/chat.png`)
         .addFields(
             { name: 'COMBAT LEVEL', value: `${data.combatlevel}`, inline: true },
@@ -45,6 +48,7 @@ module.exports = {
         .setFooter({ text: 'Developed by Sinan', iconURL: 'https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large' });
 
         await interaction.reply({embeds: [exampleEmbed]})
+
         }
     },
 };
