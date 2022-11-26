@@ -21,22 +21,18 @@ module.exports = {
         const itemData = await fetch(`https://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=${itemId}`)
         .then((response) => response.json())
 
+        await interaction.deferReply()
+
         const graphData = await fetch(`https://secure.runescape.com/m=itemdb_rs/api/graph/${itemId}.json`)
         .then((response) => response.json())
-        const keyArray = []; 
-        const valueArray = [];
 
-        await interaction.deferReply({ephemeral: true});
-
-        for await (const [key, value] of Object.entries(graphData.daily)) { 
-            keyArray.push(`${key}`);
-            valueArray.push(`${value}`);
-        }
+        const keys = Object.keys(graphData.daily)
+        const values = Object.values(graphData.daily)
 
         const chart = new QuickChart();
         chart.setConfig({
         type: 'line',
-        data: { labels: keyArray, datasets: [{ label:'Price', data: valueArray }] },
+        data: { labels: keys, datasets: [{ label:'Price', data: values }] },
         });
 
         const chartUrl = await chart.getShortUrl();
