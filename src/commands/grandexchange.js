@@ -1,7 +1,7 @@
 const { AttachmentBuilder, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-var plotly = require('plotly')("labofsinan", "mepFGawdlV2LcrAcPl2F")
 var fs = require('fs');
+const QuickChart = require('quickchart-js');
 
 
 
@@ -15,8 +15,6 @@ module.exports = {
         .setRequired(true)
     ),
 
-    
-
     async execute(interaction) {
         const itemId = interaction.options.getInteger('item')
 
@@ -25,42 +23,23 @@ module.exports = {
 
         const graphData = await fetch(`https://secure.runescape.com/m=itemdb_rs/api/graph/${itemId}.json`)
         .then((response) => response.json())
+        const keyArray = []; 
+        const valueArray = [];
 
-        const p = new Promise((resolve, reject) => {
-            const keyArray = []; 
-            const valueArray = [];
-            for (const [key, value] of Object.entries(graphData.daily)) { 
-                keyArray.push(`${key}`);
-                valueArray.push(`${value}`);
-            }
+        await interaction.deferReply({ephemeral: true});
 
-            var trace = {
-              type: 'scatter',
-              x: keyArray,
-              y: valueArray,
-            };
-        
-            var layout = {
-              plot_bgcolor: 'rgb(52, 54, 60)',
-              paper_bgcolor: 'rgb(52, 54, 60)',
-            };
-        
-            var chart = { data: [trace], layout: layout };
-        
-            var pngOptions = { format: 'png', width: 1000, height: 500 };
-        
-            plotly.getImage(chart, pngOptions, (err, imageStream) => {
-              if ( err ) return reject(err);
-              var fileStream = fs.createWriteStream('test.png');
-              imageStream.pipe(fileStream);
-              fileStream.on('error', reject);
-              fileStream.on('finish', resolve);
-            });
+        for await (const [key, value] of Object.entries(graphData.daily)) { 
+            keyArray.push(`${key}`);
+            valueArray.push(`${value}`);
+        }
+
+        const chart = new QuickChart();
+        chart.setConfig({
+        type: 'line',
+        data: { labels: keyArray, datasets: [{ label:'Price', data: valueArray }] },
         });
 
-        await p.then((res) => console.log("Success")).catch((error) => console.log("Error"))
-
-        const file = new AttachmentBuilder('./test.png');
+        const chartUrl = await chart.getShortUrl();
 
         const itemEmbed = new EmbedBuilder()
         .setColor(0x0099FF)
@@ -78,13 +57,12 @@ module.exports = {
             { name: 'Day 90', value: `${itemData.item.day90.trend} ${itemData.item.day90.change}`, inline: true },
             { name: 'Day 180', value: `${itemData.item.day180.trend} ${itemData.item.day180.change}`, inline: true }
         )
-        .setImage('attachment://test.png')
+        .setImage(chartUrl)
         .setTimestamp()
         .setFooter({ text: 'Developed by Sinan', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
 
-        await interaction.reply({
-            embeds: [itemEmbed],
-            files: [file]
-        }) 
+        await interaction.editReply({
+            embeds: [itemEmbed]
+        })
     }
 }
