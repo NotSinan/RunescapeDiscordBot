@@ -10,6 +10,5 @@ module.exports = {
         const data = await fetch("https://secure.runescape.com/m=account-creation-reports/rsusertotal.ws")
         .then((response) => response.json())
         await interaction.reply(`The number of accounts created for Runescape is ${data.accountsformatted}`)
-
     }
 }
