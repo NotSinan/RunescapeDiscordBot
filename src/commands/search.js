@@ -1,28 +1,27 @@
 const { SlashCommandBuilder, channelLink } = require("discord.js");
 const { EmbedBuilder } = require('discord.js');
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
-
+const endpointRetriever = require('./singleton/endpoints')
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('search')
-    .setDescription("Search Runescape Players")
+    .setDescription('Displays player information.')
     .addStringOption(option => 
-        option.setName("username")
-        .setDescription("The username to search.")
+        option.setName('username')
+        .setDescription('The username to look up.')
         .setRequired(true)),
 
-    
     async execute(interaction) {
-        const username = interaction.options.getString('username');
 
-        const data = await fetch(`https://apps.runescape.com/runemetrics/profile/profile?user=${username}&activities=1`)
+        await interaction.deferReply()
+
+        const data = await fetch(endpointRetriever.getSearchUrl(interaction.options.getString('username')))
         .then((response) => response.json())
         .catch((error) => console.log(error))
 
         if (data.error === 'PROFILE_PRIVATE') {
-            await interaction.reply("This profile is private.")
+            await interaction.editReply('This profile is private.')
         } else {
         const exampleEmbed = new EmbedBuilder()
         .setColor(0x0011FF)
@@ -41,8 +40,7 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: 'Developed by Sinan', iconURL: 'https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large' });
 
-        await interaction.reply({embeds: [exampleEmbed]})
-
+        await interaction.editReply({embeds: [exampleEmbed]})
         }
-    },
-};
+    }
+}
