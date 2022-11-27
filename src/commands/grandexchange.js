@@ -1,29 +1,25 @@
 const { AttachmentBuilder, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-var fs = require('fs');
 const QuickChart = require('quickchart-js');
-
-
+const endpointRetriever = require('./singleton/endpoints')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName("grandexchange")
-    .setDescription("Item look up for Grand Exchange")
+    .setName('grandexchange')
+    .setDescription('Displays item information.')
     .addIntegerOption(option => 
-        option.setName("item")
-        .setDescription("Item ID to look up.")
+        option.setName('id')
+        .setDescription('Item identification number')
         .setRequired(true)
     ),
 
     async execute(interaction) {
-        const itemId = interaction.options.getInteger('item')
-
-        const itemData = await fetch(`https://services.runescape.com/m=itemdb_rs/api/catalogue/detail.json?item=${itemId}`)
+        const itemData = await fetch(endpointRetriever.getGrandExchangeUrl(interaction.options.getInteger('id')))
         .then((response) => response.json())
 
         await interaction.deferReply()
 
-        const graphData = await fetch(`https://secure.runescape.com/m=itemdb_rs/api/graph/${itemId}.json`)
+        const graphData = await fetch(endpointRetriever.getGraphUrl(interaction.options.getInteger('id')))
         .then((response) => response.json())
 
         const keys = Object.keys(graphData.daily)
@@ -40,7 +36,7 @@ module.exports = {
         const itemEmbed = new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle(`${itemData.item.name}`)
-        .setURL(`https://secure.runescape.com/m=itemdb_rs/viewitem?obj=${itemData.item.id}`)
+        .setURL(endpointRetriever.getItemImageUrl(interaction.options.getInteger('id')))
         .setDescription(`${itemData.item.description}`)
         .setThumbnail(`${itemData.item.icon_large}`)
         .addFields(
