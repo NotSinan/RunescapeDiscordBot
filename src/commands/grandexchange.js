@@ -1,4 +1,4 @@
-const { AttachmentBuilder, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const QuickChart = require('quickchart-js');
 const endpointRetriever = require('./singleton/endpoints')
