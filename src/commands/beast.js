@@ -1,20 +1,19 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const endpointRetriever = require('./singleton/endpoints')
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('beast')
-    .setDescription('Runescape Beast Information')
+    .setDescription('Displays Runescape beast information.')
     .addIntegerOption(option => option.setName('id')
-    .setDescription('Id of beast')
+    .setDescription('Beast identification number.')
     .setRequired(true)),
 
     async execute(interaction) {
-        const id = interaction.options.getInteger('id');
-
-        const beastData = await fetch(`https://secure.runescape.com/m=itemdb_rs/bestiary/beastData.json?beastid=${id}`)
+        await interaction.deferReply()
+        const beastData = await fetch(endpointRetriever.getBeastUrl(interaction.options.getInteger('id')))
         .then((response) => response.json())
-
 
         const beastEmbed = new EmbedBuilder()
         .setColor(0x0099FF)
@@ -40,7 +39,7 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: 'Developed by Sinan', iconURL: 'https://i.imgur.com/AfFp7pu.png' });
 
-        await interaction.reply({
+        await interaction.editReply({
             embeds: [beastEmbed]
         })
     }
