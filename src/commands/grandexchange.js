@@ -16,7 +16,6 @@ module.exports = {
     async execute(interaction) {
 
         interaction.deferReply()
-
         await Promise.all([
             fetch(endpointRetriever.getGrandExchangeUrl(interaction.options.getInteger('id'))),
             fetch(endpointRetriever.getGraphUrl(interaction.options.getInteger('id')))
@@ -37,7 +36,7 @@ module.exports = {
                     const chartUrl = await chart.getShortUrl();
 
                     const itemEmbed = new EmbedBuilder()
-                    .setColor(0x0099FF)
+                    .setColor('FFFFFF')
                     .setTitle(`${itemData.item.name}`)
                     .setURL(endpointRetriever.getItemImageUrl(interaction.options.getInteger('id')))
                     .setDescription(`${itemData.item.description}`)
@@ -60,10 +59,10 @@ module.exports = {
                         embeds: [itemEmbed]
                     })
 
-                }).catch(error => console.log(error))
+                })
             } else {
-                await interaction.editReply("Error")
+                await interaction.editReply("The ID is not available or it is not a tradeable item. Please try again.")
             }
-        })
+        }).catch(error => console.log(error))
     }
 }
