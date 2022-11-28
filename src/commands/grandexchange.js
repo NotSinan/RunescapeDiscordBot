@@ -14,13 +14,20 @@ module.exports = {
     ),
 
     async execute(interaction) {
-        const itemData = await fetch(endpointRetriever.getGrandExchangeUrl(interaction.options.getInteger('id')))
-        .then((response) => response.json())
 
-        await interaction.deferReply()
 
-        const graphData = await fetch(endpointRetriever.getGraphUrl(interaction.options.getInteger('id')))
-        .then((response) => response.json())
+        interaction.deferReply()
+        const data = await Promise.all([
+            fetch(endpointRetriever.getGrandExchangeUrl(interaction.options.getInteger('id'))),
+            fetch(endpointRetriever.getGraphUrl(interaction.options.getInteger('id')))
+        ]).then((responses) => {
+            return Promise.all(responses.map(r => r.json()))
+        }).then((data) => {
+            return data
+        })
+
+
+        const [itemData, graphData] = data
 
         const keys = Object.keys(graphData.daily)
         const values = Object.values(graphData.daily)
