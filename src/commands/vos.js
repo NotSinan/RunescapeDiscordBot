@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints')
 
@@ -10,6 +10,17 @@ module.exports = {
     async execute(interaction) {
         currentVos = await fetch(endpointRetriever.getVosUrl())
         .then((response) => response.json())
-        await interaction.reply(`The current Voice of Seren is in ${currentVos.district1} and ${currentVos.district2}`)
+
+        const districtEmbed = new EmbedBuilder()
+        .setTitle('Voice of Seren')
+        .setDescription('The current Voice of Seren is active in...')
+        .setColor('FFFFFF')
+        .addFields(
+            { name: "First district: ", value: `${currentVos.district1}`},
+            { name: "Second district: ", value: `${currentVos.district2}`}
+        )
+        .setTimestamp()
+        .setFooter({ text: 'Developed by Sinan', iconURL: 'https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large' });
+        await interaction.reply({embeds: [districtEmbed]})
     }
 }
