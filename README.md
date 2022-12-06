@@ -62,3 +62,7 @@ The following commands are available:
 * ```/search [username]```: Shows information about the specified RuneScape player.
 * ```/travellingmerchant```: Shows the current stock of the Travelling Merchant.
 * ```/vos```: Shows the current Voice of Seren status for the active clans in Gielinor.
+
+# Contributing
+
+If you would like to contribute to this project, please feel free to open a pull request.
