@@ -21,7 +21,12 @@ module.exports = {
         .catch((error) => console.log(error))
 
         if (data.error === 'PROFILE_PRIVATE') {
-            await interaction.editReply('This profile is private.')
+            const errorEmbed = new EmbedBuilder()
+            .setColor('FFFFFF')
+            .setTitle('Private Profile')
+            .setDescription('This profile is private.')
+            .setFooter({ text: 'Developed by Sinan', iconURL: 'https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large' })
+            await interaction.editReply({embeds: [errorEmbed]})
         } else {
         const exampleEmbed = new EmbedBuilder()
         .setColor(0x0011FF)
