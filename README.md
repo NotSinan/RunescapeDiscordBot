@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RuneScape Discord Bot
 
 This Discord bot uses the RuneScape API and discord.js to provide RuneScape-related information to users in Discord servers.
@@ -67,3 +68,10 @@ The following commands are available:
 
 
 
+=======
+# firstdiscordbot
+
+```NPM Config
+npm install
+```
+>>>>>>> 49d770368d48e136314db727e4ca3fb78c37df34
