@@ -38,8 +38,12 @@ class EndpointRetriever {
     return `https://secure.runescape.com/m=itemdb_rs/viewitem?obj=${itemId}`;
   }
 
-  getRunescapeLogo() {
+  getRunescapeLogoUrl() {
     return "https://logos-world.net/wp-content/uploads/2021/02/RuneScape-Symbol.png";
+  }
+
+  getRunescapeAccountCreationUrl() {
+    return "https://runescape.wiki/images/Step_2_Account_creation.png?1e8c0";
   }
 }
 
