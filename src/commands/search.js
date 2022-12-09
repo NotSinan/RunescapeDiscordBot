@@ -66,8 +66,7 @@ module.exports = {
         .setTimestamp()
         .setFooter({
           text: "Developed by Sinan",
-          iconURL:
-            "https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large",
+          iconURL: endpointRetriever.getRunescapeLogoUrl(),
         });
 
       await interaction.editReply({ embeds: [exampleEmbed] });
