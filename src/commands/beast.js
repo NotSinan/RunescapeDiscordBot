@@ -79,7 +79,7 @@ module.exports = {
               .setTimestamp()
               .setFooter({
                 text: "Developed by Sinan",
-                iconURL: "https://i.imgur.com/AfFp7pu.png",
+                iconURL: endpointRetriever.getRunescapeLogoUrl(),
               });
 
             await interaction.editReply({
