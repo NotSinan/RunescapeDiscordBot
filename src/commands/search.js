@@ -31,8 +31,7 @@ module.exports = {
         .setDescription("This profile is private.")
         .setFooter({
           text: "Developed by Sinan",
-          iconURL:
-            "https://pbs.twimg.com/tweet_video_thumb/ESoJdM8XQAAKwJ8.jpg:large",
+          iconURL: endpointRetriever.getRunescapeLogoUrl(),
         });
       await interaction.editReply({ embeds: [errorEmbed] });
     } else {
