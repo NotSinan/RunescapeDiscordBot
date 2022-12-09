@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const QuickChart = require('quickchart-js');
 const endpointRetriever = require('./singleton/endpoints');
 
@@ -9,25 +8,14 @@ module.exports = {
         .setName('grandexchange')
         .setDescription('Displays item information.')
         .addIntegerOption((option) =>
-            option
-                .setName('id')
-                .setDescription('Item identification number')
-                .setRequired(true)
+            option.setName('id').setDescription('Item identification number').setRequired(true)
         ),
 
     async execute(interaction) {
         interaction.deferReply();
         await Promise.all([
-            fetch(
-                endpointRetriever.getGrandExchangeUrl(
-                    interaction.options.getInteger('id')
-                )
-            ),
-            fetch(
-                endpointRetriever.getGraphUrl(
-                    interaction.options.getInteger('id')
-                )
-            ),
+            fetch(endpointRetriever.getGrandExchangeUrl(interaction.options.getInteger('id'))),
+            fetch(endpointRetriever.getGraphUrl(interaction.options.getInteger('id'))),
         ])
             .then(async (responses) => {
                 if (responses[0].ok && responses[1].ok) {
@@ -41,9 +29,7 @@ module.exports = {
                                 type: 'line',
                                 data: {
                                     labels: keys,
-                                    datasets: [
-                                        { label: 'Price', data: values },
-                                    ],
+                                    datasets: [{ label: 'Price', data: values }],
                                 },
                             });
 
@@ -97,8 +83,7 @@ module.exports = {
                                 .setTimestamp()
                                 .setFooter({
                                     text: 'Developed by Sinan',
-                                    iconURL:
-                                        endpointRetriever.getRunescapeLogoUrl(),
+                                    iconURL: endpointRetriever.getRunescapeLogoUrl(),
                                 });
 
                             await interaction.editReply({

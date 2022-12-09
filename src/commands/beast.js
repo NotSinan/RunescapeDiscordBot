@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints');
 
 module.exports = {
@@ -8,17 +7,12 @@ module.exports = {
         .setName('beast')
         .setDescription('Displays Runescape beast information.')
         .addIntegerOption((option) =>
-            option
-                .setName('id')
-                .setDescription('Beast identification number.')
-                .setRequired(true)
+            option.setName('id').setDescription('Beast identification number.').setRequired(true)
         ),
 
     async execute(interaction) {
         await interaction.deferReply();
-        await fetch(
-            endpointRetriever.getBeastUrl(interaction.options.getInteger('id'))
-        )
+        await fetch(endpointRetriever.getBeastUrl(interaction.options.getInteger('id')))
             .then(async (response) => {
                 console.log(response.headers.get('Content-Length'));
                 if (response.ok && response.data.length > 0) {
@@ -98,8 +92,7 @@ module.exports = {
                             .setTimestamp()
                             .setFooter({
                                 text: 'Developed by Sinan',
-                                iconURL:
-                                    endpointRetriever.getRunescapeLogoUrl(),
+                                iconURL: endpointRetriever.getRunescapeLogoUrl(),
                             });
 
                         await interaction.editReply({

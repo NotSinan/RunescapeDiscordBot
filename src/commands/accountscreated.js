@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints');
 
 module.exports = {
@@ -9,8 +8,8 @@ module.exports = {
         .setDescription('Displays total number of RuneScape accounts created.'),
 
     async execute(interaction) {
-        const data = await fetch(endpointRetriever.getAccountCreatedUrl()).then(
-            (response) => response.json()
+        const data = await fetch(endpointRetriever.getAccountCreatedUrl()).then((response) =>
+            response.json()
         );
 
         const accountsCreatedEmbed = new EmbedBuilder()

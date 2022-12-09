@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints');
 
 module.exports = {
@@ -9,9 +8,9 @@ module.exports = {
         .setDescription("Get the current Travelling Merchant's Shop stock"),
 
     async execute(interaction) {
-        const data = await fetch(
-            endpointRetriever.getTravellingMerchantUrl()
-        ).then((response) => response.json());
+        const data = await fetch(endpointRetriever.getTravellingMerchantUrl()).then((response) =>
+            response.json()
+        );
 
         travellingMerchantEmbed = new EmbedBuilder()
             .setTitle('Travelling Merchant')

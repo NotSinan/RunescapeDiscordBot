@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints');
 
 module.exports = {
@@ -9,9 +8,7 @@ module.exports = {
         .setDescription('Display the current Voice of Seren.'),
 
     async execute(interaction) {
-        currentVos = await fetch(endpointRetriever.getVosUrl()).then(
-            (response) => response.json()
-        );
+        currentVos = await fetch(endpointRetriever.getVosUrl()).then((response) => response.json());
 
         const districtEmbed = new EmbedBuilder()
             .setTitle('Voice of Seren')
@@ -26,6 +23,7 @@ module.exports = {
                 text: 'Developed by Sinan',
                 iconURL: endpointRetriever.getRunescapeLogoUrl(),
             });
+
         await interaction.reply({ embeds: [districtEmbed] });
     },
 };

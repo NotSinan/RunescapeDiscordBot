@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, channelLink } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
-const fetch = (...args) =>
-    import('node-fetch').then(({ default: fetch }) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const endpointRetriever = require('./singleton/endpoints');
 
 module.exports = {
@@ -9,19 +8,14 @@ module.exports = {
         .setName('search')
         .setDescription('Displays player information.')
         .addStringOption((option) =>
-            option
-                .setName('username')
-                .setDescription('The username to look up.')
-                .setRequired(true)
+            option.setName('username').setDescription('The username to look up.').setRequired(true)
         ),
 
     async execute(interaction) {
         await interaction.deferReply();
 
         const data = await fetch(
-            endpointRetriever.getSearchUrl(
-                interaction.options.getString('username')
-            )
+            endpointRetriever.getSearchUrl(interaction.options.getString('username'))
         )
             .then((response) => response.json())
             .catch((error) => console.log(error));
@@ -62,9 +56,7 @@ module.exports = {
                 .addFields(
                     {
                         name: 'TOTAL EXPERIENCE',
-                        value: `${new Intl.NumberFormat().format(
-                            data.totalxp
-                        )}`,
+                        value: `${new Intl.NumberFormat().format(data.totalxp)}`,
                         inline: true,
                     },
                     {
