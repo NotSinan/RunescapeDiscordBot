@@ -8,22 +8,30 @@ module.exports = {
         .setDescription('Displays total number of RuneScape accounts created.'),
 
     async execute(interaction) {
-        const data = await fetch(endpointRetriever.getAccountCreatedUrl()).then((response) =>
-            response.json()
-        );
+        await interaction.deferReply();
 
-        const accountsCreatedEmbed = new EmbedBuilder()
-            .setTitle('RuneScape Accounts Created')
-            .setDescription('The total RuneScape accounts created is: ')
-            .setColor('FFFFFF')
-            .setImage(endpointRetriever.getAccountCreatedUrl())
-            .addFields({ name: 'Accounts', value: `${data.accountsformatted}` })
-            .setTimestamp()
-            .setFooter({
-                text: 'Developed by Sinan',
-                iconURL: endpointRetriever.getRunescapeLogoUrl(),
-            });
+        await fetch(endpointRetriever.getAccountCreatedUrl())
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Unable to get data.');
+                }
+                return response.json();
+            })
+            .then(async (data) => {
+                const accountsCreatedEmbed = new EmbedBuilder()
+                    .setTitle('RuneScape Accounts Created')
+                    .setDescription('The total RuneScape accounts created is: ')
+                    .setColor('FFFFFF')
+                    .setImage(endpointRetriever.getAccountCreatedUrl())
+                    .addFields({ name: 'Accounts', value: `${data.accountsformatted}` })
+                    .setTimestamp()
+                    .setFooter({
+                        text: 'Developed by Sinan',
+                        iconURL: endpointRetriever.getRunescapeLogoUrl(),
+                    });
 
-        await interaction.reply({ embeds: [accountsCreatedEmbed] });
+                await interaction.editReply({ embeds: [accountsCreatedEmbed] });
+            })
+            .catch(async (e) => await interaction.editReply(`${e.message}`));
     },
 };
