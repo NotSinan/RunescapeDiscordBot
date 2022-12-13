@@ -9,7 +9,7 @@ To use this Discord bot, you will need to have Node.js and npm installed on your
 1. Clone this repository to your local machine.
 
 ```
-$ git clone https://github.com/labofsinan/firstdiscordbot.git
+$ git clone https://github.com/NotSinan/firstdiscordbot.git
 ```
 
 2. To install the necessary packages, run the following command:
@@ -20,7 +20,7 @@ $ npm install
 
 # Configuration
 
-To use this bot, you will need to create a ```config.json``` file in the root directory of the project. This file should contain the following information:
+To use this bot, you will need to create a `config.json` file in the root directory of the project. This file should contain the following information:
 
 ```json
 {
@@ -30,10 +30,9 @@ To use this bot, you will need to create a ```config.json``` file in the root di
 }
 ```
 
-* Replace ```your_bot_token```, ```your_client_id```, and ```your_guild_id``` with the appropriate values for your bot.
-* You can obtain your bot token by creating a bot through the <a href="https://discord.com/developers/docs/intro" target="_blank">Discord developer portal<a>. 
-* Your client ID and guild ID can be obtained by enabling developer mode in Discord and right clicking on your bot in the server list and selecting "Copy ID".
-
+- Replace `your_bot_token`, `your_client_id`, and `your_guild_id` with the appropriate values for your bot.
+- You can obtain your bot token by creating a bot through the <a href="https://discord.com/developers/docs/intro" target="_blank">Discord developer portal<a>.
+- Your client ID and guild ID can be obtained by enabling developer mode in Discord and right clicking on your bot in the server list and selecting "Copy ID".
 
 # Deploying commands
 
@@ -51,17 +50,16 @@ To run the bot, use the following command:
 $ node index.js
 ```
 
-
 # Available commands
 
 The following commands are available:
 
-* ```/accountscreated```: Shows the number of RuneScape accounts that have been created.
-* ```/beast [id]```: Shows information about the specified beast.
-* ```/grandexchange [itemId]```: Shows information about the specified item on the Grand Exchange.
-* ```/search [username]```: Shows information about the specified RuneScape player.
-* ```/travellingmerchant```: Shows the current stock of the Travelling Merchant.
-* ```/vos```: Shows the current Voice of Seren status for the active clans in Gielinor.
+- `/accountscreated`: Shows the number of RuneScape accounts that have been created.
+- `/beast [id]`: Shows information about the specified beast.
+- `/grandexchange [itemId]`: Shows information about the specified item on the Grand Exchange.
+- `/search [username]`: Shows information about the specified RuneScape player.
+- `/travellingmerchant`: Shows the current stock of the Travelling Merchant.
+- `/vos`: Shows the current Voice of Seren status for the active clans in Gielinor.
 
 # Contributing
 
