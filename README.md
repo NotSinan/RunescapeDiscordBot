@@ -39,7 +39,7 @@ To use this bot, you will need to create a `config.json` file in the root direct
 This bot uses the discord-command-loader package to manage commands. To deploy commands to your server, you can use the deploy-commands.js script.
 
 ```
-$ node deploy-commands.js
+$ npm run deploycmds
 ```
 
 # Running the bot
@@ -47,7 +47,7 @@ $ node deploy-commands.js
 To run the bot, use the following command:
 
 ```
-$ node index.js
+$ npm run start
 ```
 
 # Available commands
