@@ -9,7 +9,7 @@ To use this Discord bot, you will need to have Node.js and npm installed on your
 1. Clone this repository to your local machine.
 
 ```
-$ git clone https://github.com/NotSinan/firstdiscordbot.git
+$ git clone https://github.com/NotSinan/RunescapeDiscordBot.git
 ```
 
 2. To install the necessary packages, run the following command:
